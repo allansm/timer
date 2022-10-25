@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "timer.cpp"
+#include <timer.hpp>
 
 int main(int argc, char** argv){
 	Timer t({1,0,0});
