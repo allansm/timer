@@ -18,4 +18,5 @@ class Timer{
 		
 		Time current();
 		bool reach();
+		void wait(int ms);
 };

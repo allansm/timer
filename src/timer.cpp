@@ -25,13 +25,7 @@ Timer::Timer(std::string pattern){
 	this->time = {h, m, s, ms};
 }
 
-Time Timer::current(){
-	#ifdef _WIN32
-		Sleep(1000);
-	#else
-		usleep(1000 * 1000);
-	#endif
-
+Time Timer::current(){	
 	struct timeval tp;
 	gettimeofday(&tp, NULL);
 	
@@ -48,4 +42,12 @@ Time Timer::current(){
 
 bool Timer::reach(){
 	return this->current().ms > this->time.ms;
+}
+
+void Timer::wait(int ms){
+	#ifdef _WIN32
+		Sleep(ms);
+	#else
+		usleep(ms * 1000);
+	#endif
 }

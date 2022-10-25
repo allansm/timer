@@ -1,12 +1,12 @@
 #include <string>
 
 struct Time{
-	int h;
-	int m;
-	int s;
+	int hours;
+	int minutes;
+	int seconds;
 	int ms;
 
 	std::string pattern(){
-		return std::to_string(h)+":"+std::to_string(m)+":"+std::to_string(s);
+		return std::to_string(hours)+":"+std::to_string(minutes)+":"+std::to_string(seconds);
 	}
 };
