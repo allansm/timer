@@ -9,10 +9,13 @@
 #endif
 
 class Timer{
+	Time time;
+	
 	int start;
 
 	public:
-		Timer();
+		Timer(std::string pattern);
 		
 		Time current();
+		bool reach();
 };

@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include <timer.hpp>
 
 int main(int argc, char** argv){
@@ -11,14 +10,11 @@ int main(int argc, char** argv){
 	std::cin.clear();
 	fflush(stdin);
 	
-	Timer timer;
-	std::string current = timer.current().pattern();
+	Timer time(pattern);
 
-	while(current != pattern){
+	while(!time.reach()){
 		std::cout << "waiting: " << pattern << "\n";
-		std::cout << "timer: " << current << "\n\n";
-
-		current = timer.current().pattern();
+		std::cout << "timer: " << time.current().pattern() << "\n\n";
 	}
 
 	std::cout << "time reached\n";
