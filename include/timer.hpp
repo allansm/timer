@@ -9,12 +9,10 @@
 #endif
 
 class Timer{
-	std::string pattern;
-
 	int start;
 
 	public:
-		Timer(std::string pattern);
+		Timer();
 		
 		Time current();
 };

@@ -1,8 +1,6 @@
 #include <timer.hpp>
 
-Timer::Timer(std::string pattern){
-	this->pattern = pattern;
-
+Timer::Timer(){
 	struct timeval tp;
 	gettimeofday(&tp, NULL);
 
@@ -27,5 +25,5 @@ Time Timer::current(){
 	int m = ((curr/1000)/60) - (h*60);
 	int s = (curr/1000) - ((m*60)+(h*60*60));
 
-	return {h, m, s};
+	return {h, m, s, curr};
 }
