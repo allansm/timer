@@ -69,3 +69,11 @@ void Counter::input(){
 bool Counter::paused(){
 	return this->pause;
 }
+
+void Counter::wait(int ms){
+	#ifdef _WIN32
+		Sleep(ms);
+	#else
+		usleep(ms * 1000);
+	#endif
+}

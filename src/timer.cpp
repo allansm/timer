@@ -3,26 +3,8 @@
 Timer::Timer(std::string pattern){
 	struct timeval tp;
 	gettimeofday(&tp, NULL);
-
-	this->start = tp.tv_sec * 1000 + tp.tv_usec / 1000;
-
-	std::string tmp = pattern.substr(0, pattern.find(":"));
 	
-	int h = std::stoi(tmp);
-	
-	pattern.erase(0, pattern.find(":")+1);
-	
-	tmp = pattern.substr(0, pattern.find(":"));
-	
-	int m = std::stoi(tmp);	
-
-	pattern.erase(0, pattern.find(":")+1);
-	
-	int s = std::stoi(pattern);
-
-	int ms = (h*60*60*1000) + (m*60*1000) + (s*1000);
-
-	this->time = {h, m, s, ms};
+	this->time = {pattern};	
 }
 
 Time Timer::current(){	

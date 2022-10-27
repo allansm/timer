@@ -22,4 +22,5 @@ class Counter{
 
 		void input();
 		bool paused();
+		void wait(int ms=1000);
 };

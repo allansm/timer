@@ -1,12 +1,14 @@
 #include <string>
 
-struct Time{
-	int hours;
-	int minutes;
-	int seconds;
-	int ms;
+class Time{	
+	public:
+		int hours;
+		int minutes;
+		int seconds;
+		int ms;
 
-	std::string pattern(){
-		return std::to_string(hours)+":"+std::to_string(minutes)+":"+std::to_string(seconds);
-	}
+		std::string pattern();		
+		Time(std::string str);
+		Time(int h, int m, int s, int ms);
+		Time();
 };

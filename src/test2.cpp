@@ -1,20 +1,18 @@
 #include <counter.hpp>
 
-int main(){
+int main(int argc, char** argv){
 	Counter counter;
 
-	counter.input();
-
-	while(true){
+	counter.input();	
+	Time test = (std::string)"0:0:10";
+	while(counter.current().ms < test.ms){
 		if(!counter.paused())
 			std::cout << counter.current().pattern() << "\n";
 
-		#ifdef _WIN32
-			Sleep(1000);
-		#else
-			usleep(1000 * 1000);
-		#endif	
+		counter.wait();
 	}
 
-	return 0;
+	std::cout << "time reached\n";
+	
+	exit(0);
 }
