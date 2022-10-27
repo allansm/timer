@@ -4,10 +4,14 @@ int main(int argc, char** argv){
 	Counter counter;
 
 	counter.input();	
-	Time test = (std::string)"0:0:10";
-	while(counter.current().ms < test.ms){
+	
+	std::string title = argv[1];
+
+	Time target(argv[2]);
+
+	while(target.ms > counter.current().ms){
 		if(!counter.paused())
-			std::cout << counter.current().pattern() << "\n";
+			std::cout << title << " " << counter.current().pattern() << "\n";
 
 		counter.wait();
 	}
