@@ -8,10 +8,8 @@ void Counter::loop(){
 			usleep(1000 * 1000);
 		#endif
 	}
-
-	struct timeval tp;
-	gettimeofday(&tp, NULL);
-	this->start = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+	
+	this->start = Time().ms;
 	
 	#ifdef _WIN32
 		Sleep(1000);
@@ -19,9 +17,7 @@ void Counter::loop(){
 		usleep(1000 * 1000);
 	#endif
 
-	gettimeofday(&tp, NULL);
-
-	int time = tp.tv_sec * 1000 + tp.tv_usec / 1000 - this->start;
+	int time = Time().ms - this->start;
 	this->time += time;
 
 	this->loop();
@@ -40,12 +36,7 @@ void Counter::tap(){
 }
 
 Counter::Counter(){
-	this->time = time;
-
-	struct timeval tp;
-	gettimeofday(&tp, NULL);
-
-	this->start = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+	this->start = Time().ms;
 
 	loops.push_back(std::thread([this](){
 		this->loop();		

@@ -47,5 +47,17 @@ Time::Time(int ms){
 }
 
 Time::Time(){
-
+	struct timeval tp;
+	gettimeofday(&tp, NULL);
+	
+	int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+	
+	int h = ((ms/1000)/60) / 60;
+	int m = ((ms/1000)/60) - (h*60);
+	int s = (ms/1000) - ((m*60)+(h*60*60));
+	
+	this->hours = h;
+	this->minutes = m;
+	this->seconds = s;
+	this->ms = ms;
 }

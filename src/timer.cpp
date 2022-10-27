@@ -1,18 +1,12 @@
 #include <timer.hpp>
 
-Timer::Timer(std::string pattern){
-	struct timeval tp;
-	gettimeofday(&tp, NULL);
-	
-	this->start = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+Timer::Timer(std::string pattern){	
+	this->start = Time().ms;
 	this->time = {pattern};
 }
 
 Time Timer::current(){	
-	struct timeval tp;
-	gettimeofday(&tp, NULL);
-	
-	return {(tp.tv_sec * 1000 + tp.tv_usec / 1000) - this->start};
+	return {Time().ms - this->start};
 }
 
 bool Timer::reach(){
