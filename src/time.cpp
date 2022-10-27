@@ -35,6 +35,17 @@ Time::Time(int h, int m, int s, int ms){
 	this->ms = ms;
 }
 
+Time::Time(int ms){
+	int h = ((ms/1000)/60) / 60;
+	int m = ((ms/1000)/60) - (h*60);
+	int s = (ms/1000) - ((m*60)+(h*60*60));
+	
+	this->hours = h;
+	this->minutes = m;
+	this->seconds = s;
+	this->ms = ms;
+}
+
 Time::Time(){
 
 }

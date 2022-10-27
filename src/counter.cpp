@@ -45,7 +45,7 @@ Counter::Counter(){
 	struct timeval tp;
 	gettimeofday(&tp, NULL);
 
-	start = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+	this->start = tp.tv_sec * 1000 + tp.tv_usec / 1000;
 
 	loops.push_back(std::thread([this](){
 		this->loop();		
@@ -53,11 +53,7 @@ Counter::Counter(){
 }
 
 Time Counter::current(){
-	int h = ((this->time/1000)/60) / 60;
-	int m = ((this->time/1000)/60) - (h*60);
-	int s = (this->time/1000) - ((m*60)+(h*60*60));
-
-	return {h, m, s, this->time};
+	return {this->time};
 }
 
 void Counter::input(){
