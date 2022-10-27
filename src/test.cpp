@@ -1,5 +1,6 @@
 #include <iostream>
 #include <timer.hpp>
+#include <alarm.hpp>
 
 int main(int argc, char** argv){
 	std::string pattern;
@@ -28,6 +29,12 @@ int main(int argc, char** argv){
 	}
 
 	std::cout << "time reached\n";
+	
+	Alarm alarm(".wav");
+	
+	while(true){
+		alarm.play();
+	}
 
 	return 0;
 }
