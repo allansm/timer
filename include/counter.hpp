@@ -12,15 +12,18 @@ class Counter{
 
 	bool pause = false;
 
+	std::string target;
+
 	void loop();
 	void input_loop();
 	void tap();
 
 	public:
-		Counter();	
+		Counter(std::string pattern);
 		Time current();
 
 		void input();
 		bool paused();
 		void wait(int ms=1000);
+		bool reach();
 };

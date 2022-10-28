@@ -35,8 +35,9 @@ void Counter::tap(){
 	this->pause = this->pause ? false : true;
 }
 
-Counter::Counter(){
+Counter::Counter(std::string pattern){
 	this->start = Time().ms;
+	this->target = pattern;
 
 	loops.push_back(std::thread([this](){
 		this->loop();		
@@ -63,4 +64,8 @@ void Counter::wait(int ms){
 	#else
 		usleep(ms * 1000);
 	#endif
+}
+
+bool Counter::reach(){
+	return this->current().ms > Time(this->target).ms;
 }

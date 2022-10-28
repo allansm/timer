@@ -1,22 +1,27 @@
 #include <counter.hpp>
+#include <alarm.hpp>
 
 int main(int argc, char** argv){
-	Counter counter;
+	Counter time(argv[2]);
 
-	counter.input();	
+	time.input();	
 	
 	std::string title = argv[1];
 
-	Time target(argv[2]);
+	while(!time.reach()){
+		if(!time.paused())
+			std::cout << title << " " << time.current().pattern() << "\n";
 
-	while(target.ms > counter.current().ms){
-		if(!counter.paused())
-			std::cout << title << " " << counter.current().pattern() << "\n";
-
-		counter.wait();
+		time.wait();
 	}
 
 	std::cout << "time reached\n";
+	
+	Alarm alarm(".wav");
+	
+	while(true){
+		alarm.play();
+	}
 	
 	exit(0);
 }
