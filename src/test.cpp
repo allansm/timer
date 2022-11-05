@@ -22,6 +22,15 @@ int main(int argc, char** argv){
 	Timer time(pattern);
 
 	while(!time.reach()){
+		#if defined _WIN32
+			system("cls");
+		#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+			system("clear");	 
+		#elif defined (__APPLE__)
+			system("clear");	
+		#endif
+
+		std::cout << "waiting to " << reason << "\n";
 		std::cout << "waiting: " << pattern << "\n";
 		std::cout << "timer: " << time.current().pattern() << "\n\n";
 
