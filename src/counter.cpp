@@ -48,6 +48,10 @@ Time Counter::current(){
 	return {this->time};
 }
 
+void Counter::add(int ms){
+	this->time += ms;
+}
+
 void Counter::input(){
 	this->loops.push_back(std::thread([this](){
 		this->input_loop();		

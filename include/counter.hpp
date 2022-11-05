@@ -22,6 +22,7 @@ class Counter{
 		Counter(std::string pattern);
 		Time current();
 
+		void add(int ms);
 		void input();
 		bool paused();
 		void wait(int ms=1000);

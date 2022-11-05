@@ -1,12 +1,16 @@
 #include <counter.hpp>
 #include <alarm.hpp>
+#include <timecache.hpp>
 
 int main(int argc, char** argv){
-	Counter time(argv[2]);
-
-	time.input();	
-	
 	std::string title = argv[1];
+
+	Counter time(argv[2]);
+	TimeCache cache(title);
+
+	time.add(cache.ms());
+
+	time.input();
 
 	while(!time.reach()){
 		#if defined _WIN32
@@ -16,9 +20,11 @@ int main(int argc, char** argv){
 		#elif defined (__APPLE__)
 			system("clear");	
 		#endif
-		
-		std::cout << title << " " << time.current().pattern() << "\n";
-		
+			
+		Time current = time.current();	
+		std::cout << title << " " << current.pattern() << "\n";
+		cache.store(current);
+
 		if(time.paused())
 			std::cout << "paused\n";
 

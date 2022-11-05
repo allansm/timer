@@ -1,3 +1,6 @@
+#ifndef TIME
+#define TIME
+
 #include <libs.hpp>
 
 class Time{	
@@ -14,3 +17,5 @@ class Time{
 		Time(int ms);
 		Time();
 };
+
+#endif
