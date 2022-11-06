@@ -3,7 +3,26 @@
 #include <timecache.hpp>
 
 int main(int argc, char** argv){
+	if(argc < 2){
+		std::cout << "usage: test2 [ title ] [ time: hh:mm:ss ]\n";
+
+		return 0;
+	}
+
 	std::string title = argv[1];
+	
+	if(title == "@"){
+		time_t now = time(0);
+		tm *ltm = localtime(&now);
+		
+		int d = ltm->tm_mday;
+		int m = ltm->tm_mon+1;
+		int y = ltm->tm_year+1900;
+
+		title = std::to_string(d);
+		title += std::to_string(m);
+		title += std::to_string(y);
+	}
 
 	Counter time(argv[2]);
 	TimeCache cache(title);
