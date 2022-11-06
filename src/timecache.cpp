@@ -27,6 +27,38 @@ void TimeCache::store(Time time){
 	out.close();
 }
 
+void TimeCache::write(TimeData data){
+	std::ofstream out(this->filename.c_str());
+	
+	out << data.reason << "\n";
+	out << std::to_string(data.start.ms) << "\n";
+	out << std::to_string(data.end.ms) << "\n";
+
+	out.close();
+}
+
+TimeData TimeCache::read(){
+	TimeData data;
+
+	std::ifstream in(this->filename.c_str());
+	std::string line;
+
+	if(in.good()){
+		getline(in, line);
+		data.reason = line;
+
+		getline(in, line);
+		data.start = Time(std::stoi(line));
+		
+		getline(in, line);
+		data.end = Time(std::stoi(line));
+
+		return data;
+	}
+
+	return {"", Time(-1), Time(-1)};
+}
+
 int TimeCache::ms(){
 	std::string ret = "0";
 	

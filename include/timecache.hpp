@@ -1,4 +1,4 @@
-#include <time.hpp>
+#include <timedata.hpp>
 #include <fstream>
 #include <unistd.h>
 #include <dirent.h>
@@ -10,6 +10,11 @@ class TimeCache{
 
 	public:
 		TimeCache(std::string filename);
+
 		void store(Time time);
+		
+		void write(TimeData data);
+		TimeData read();
+
 		int ms();
 };

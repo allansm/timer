@@ -35,5 +35,5 @@ add_executable(test2 src/test2.cpp)
 
 target_link_libraries(time libs)
 target_link_libraries(alarm SDL2::SDL2 SDL2_mixer)
-target_link_libraries(test timer time alarm)
+target_link_libraries(test timer time alarm timecache)
 target_link_libraries(test2 counter time alarm timecache)

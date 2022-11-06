@@ -1,4 +1,4 @@
-#include <time.hpp>
+#include <timedata.hpp>
 
 class Timer{
 	Time time;
@@ -6,11 +6,14 @@ class Timer{
 	int start;
 
 	public:
+		Timer(){
+		}
+
 		Timer(std::string pattern);
-		Timer(int start);
+		Timer(int start, int end);
 
 		Time current();
-		Time started_time();
+		TimeData data();
 		bool reach();
 		void wait(int ms);
 };
