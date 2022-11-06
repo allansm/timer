@@ -1,12 +1,20 @@
 #include <timer.hpp>
 
-Timer::Timer(std::string pattern){	
+Timer::Timer(std::string pattern){
 	this->start = Time().ms;
 	this->time = {pattern};
 }
 
-Time Timer::current(){	
+Timer::Timer(int start){
+	this->start = start;
+}
+
+Time Timer::current(){
 	return {Time().ms - this->start};
+}
+
+Time Timer::started_time(){
+	return {this->start};
 }
 
 bool Timer::reach(){
