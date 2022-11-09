@@ -2,12 +2,14 @@
 #include <timer.hpp>
 #include <timecache.hpp>
 #include <alarm.hpp>
+#include <log.hpp>
 
 int main(int argc, char** argv){
 	Timer time;
 	TimeData data;
 	TimeCache cache(".cache");
-	
+	Log log;
+
 	std::string command = "";
 
 	if(argc == 1){
@@ -53,6 +55,8 @@ int main(int argc, char** argv){
 		system(command.c_str());
 	#endif
 	
+	log.add("waiting to "+data.reason);
+
 	while(!time.reach()){
 		#if defined _WIN32
 			system("cls");
@@ -74,7 +78,9 @@ int main(int argc, char** argv){
 		
 		system(command.c_str());
 	#endif
-
+	
+	log.add("time to "+data.reason);
+	
 	std::cout << "time reached\n";
 	
 	Alarm alarm(".wav");

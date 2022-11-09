@@ -1,6 +1,7 @@
 #include <counter.hpp>
 #include <alarm.hpp>
 #include <timecache.hpp>
+#include <log.hpp>
 
 int main(int argc, char** argv){
 	if(argc < 2){
@@ -26,10 +27,13 @@ int main(int argc, char** argv){
 
 	Counter time(argv[2]);
 	TimeCache cache(title);
+	Log log;
 
 	time.add(cache.ms());
 
 	time.input();
+
+	log.add(title+" started");
 
 	while(!time.reach()){
 		#if defined _WIN32
@@ -53,6 +57,8 @@ int main(int argc, char** argv){
 	#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
 		system("notify-send counter: \"time reached\"");
 	#endif
+
+	log.add(title+" time reached");
 	
 	std::cout << "time reached\n";
 	
