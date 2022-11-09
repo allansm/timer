@@ -7,6 +7,8 @@ int main(int argc, char** argv){
 	Timer time;
 	TimeData data;
 	TimeCache cache(".cache");
+	
+	std::string command = "";
 
 	if(argc == 1){
 		std::string pattern;
@@ -44,6 +46,12 @@ int main(int argc, char** argv){
 	}else{
 		return 0;
 	}
+
+	#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+		command = "notify-send timer: \"waiting to "+data.reason+"\"";
+		
+		system(command.c_str());
+	#endif
 	
 	while(!time.reach()){
 		#if defined _WIN32
@@ -60,6 +68,12 @@ int main(int argc, char** argv){
 
 		time.wait(1000);
 	}
+	
+	#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+		command = "notify-send timer: \"time to "+data.reason+"\"";
+		
+		system(command.c_str());
+	#endif
 
 	std::cout << "time reached\n";
 	

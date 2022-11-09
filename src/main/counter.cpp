@@ -49,7 +49,11 @@ int main(int argc, char** argv){
 
 		time.wait();
 	}
-
+	
+	#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+		system("notify-send counter: \"time reached\"");
+	#endif
+	
 	std::cout << "time reached\n";
 	
 	Alarm alarm(".wav");
