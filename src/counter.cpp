@@ -29,7 +29,8 @@ void Counter::input_loop(){
 	while(true){	
 		getline(std::cin, x);
 		this->tap();
-	}	
+		this->input_callback(this);
+	}
 }
 
 void Counter::tap(){

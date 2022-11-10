@@ -3,6 +3,8 @@
 #include <timecache.hpp>
 #include <log.hpp>
 
+std::string title = "";
+
 int main(int argc, char** argv){
 	if(argc < 2){
 		std::cout << "usage: test2 [ title ] [ time: hh:mm:ss ]\n";
@@ -10,7 +12,7 @@ int main(int argc, char** argv){
 		return 0;
 	}
 
-	std::string title = argv[1];
+	title = argv[1];
 	
 	if(title == "@"){
 		time_t now = time(0);
@@ -27,13 +29,41 @@ int main(int argc, char** argv){
 
 	Counter time(argv[2]);
 	TimeCache cache(title);
+	
 	Log log;
+	std::string command = "";
 
 	time.add(cache.ms());
+	
+	time.input_callback = [](auto time){
+		Log log;
+		Time current = time->current();
+		std::string command = "";
 
+		if(time->paused()){
+			#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+				command = "notify-send counter: \""+title+" "+current.pattern()+" paused\"";
+				system(command.c_str());
+			#endif
+
+			log.add(title+" "+current.pattern()+" paused");
+		}else{
+			#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+				command = "notify-send counter: \""+title+" "+current.pattern()+" started\"";
+				system(command.c_str());
+			#endif
+
+			log.add(title+" "+current.pattern()+" started");
+		}
+	};
 	time.input();
 
-	log.add(title+" started");
+	#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+		command = "notify-send counter: \""+title+" "+time.current().pattern()+" started\"";
+		system(command.c_str());
+	#endif
+
+	log.add(title+" "+time.current().pattern()+" started");
 
 	while(!time.reach()){
 		#if defined _WIN32
@@ -44,7 +74,7 @@ int main(int argc, char** argv){
 			system("clear");	
 		#endif
 			
-		Time current = time.current();	
+		Time current = time.current();
 		std::cout << title << " " << current.pattern() << "\n";
 		cache.store(current);
 

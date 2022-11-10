@@ -19,6 +19,8 @@ class Counter{
 	void tap();
 
 	public:
+		void (*input_callback)(Counter* counter) = [](auto counter){};
+
 		Counter(std::string pattern);
 		Time current();
 
