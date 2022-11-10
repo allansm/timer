@@ -25,10 +25,11 @@ void Counter::loop(){
 
 void Counter::input_loop(){
 	std::string x;
-	getline(std::cin, x);
-
-	this->tap();
-	this->input();
+	
+	while(true){	
+		getline(std::cin, x);
+		this->tap();
+	}	
 }
 
 void Counter::tap(){
