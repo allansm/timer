@@ -2,6 +2,7 @@
 #include <alarm.hpp>
 #include <timecache.hpp>
 #include <log.hpp>
+#include <os.hpp>
 
 std::string title = "";
 
@@ -31,7 +32,6 @@ int main(int argc, char** argv){
 	TimeCache cache(title);
 	
 	Log log;
-	std::string command = "";
 
 	time.add(cache.ms());
 	
@@ -41,39 +41,22 @@ int main(int argc, char** argv){
 		std::string command = "";
 
 		if(time->paused()){
-			#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
-				command = "notify-send counter: \""+title+" "+current.pattern()+" paused\"";
-				system(command.c_str());
-			#endif
-
+			OS::notify(title, current.pattern()+" paused");
 			log.add(title+" "+current.pattern()+" paused");
 		}else{
-			#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
-				command = "notify-send counter: \""+title+" "+current.pattern()+" started\"";
-				system(command.c_str());
-			#endif
-
+			OS::notify(title, current.pattern()+" started");
 			log.add(title+" "+current.pattern()+" started");
 		}
 	};
+
 	time.input();
 
-	#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
-		command = "notify-send counter: \""+title+" "+time.current().pattern()+" started\"";
-		system(command.c_str());
-	#endif
-
+	OS::notify(title, time.current().pattern()+" started");
 	log.add(title+" "+time.current().pattern()+" started");
 
 	while(!time.reach()){
-		#if defined _WIN32
-			system("cls");
-		#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
-			system("clear");	 
-		#elif defined (__APPLE__)
-			system("clear");	
-		#endif
-			
+		OS::clear();
+
 		Time current = time.current();
 		std::cout << title << " " << current.pattern() << "\n";
 		cache.store(current);
@@ -82,12 +65,9 @@ int main(int argc, char** argv){
 			std::cout << "paused\n";
 
 		time.wait();
-	}
-	
-	#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
-		system("notify-send counter: \"time reached\"");
-	#endif
+	}	
 
+	OS::notify("counter", "time reached");
 	log.add(title+" time reached");
 	
 	std::cout << "time reached\n";
@@ -95,7 +75,7 @@ int main(int argc, char** argv){
 	Alarm alarm(".wav");
 	
 	while(true){
-		alarm.play();
+		alarm.play();	
 	}
 	
 	exit(0);

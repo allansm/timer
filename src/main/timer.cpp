@@ -3,14 +3,14 @@
 #include <timecache.hpp>
 #include <alarm.hpp>
 #include <log.hpp>
+#include <os.hpp>
 
 int main(int argc, char** argv){
 	Timer time;
 	TimeData data;
 	TimeCache cache(".cache");
+	
 	Log log;
-
-	std::string command = "";
 
 	if(argc == 1){
 		std::string pattern;
@@ -48,23 +48,12 @@ int main(int argc, char** argv){
 	}else{
 		return 0;
 	}
-
-	#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
-		command = "notify-send timer: \"waiting to "+data.reason+"\"";
-		
-		system(command.c_str());
-	#endif
 	
+	OS::notify("timer:", "waiting to "+data.reason);	
 	log.add("waiting to "+data.reason);
 
 	while(!time.reach()){
-		#if defined _WIN32
-			system("cls");
-		#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
-			system("clear");	 
-		#elif defined (__APPLE__)
-			system("clear");	
-		#endif
+		OS::clear();
 
 		std::cout << "waiting to " << data.reason << "\n";
 		std::cout << "waiting: " << data.end.pattern() << "\n";
@@ -73,12 +62,7 @@ int main(int argc, char** argv){
 		time.wait(1000);
 	}
 	
-	#if defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
-		command = "notify-send timer: \"time to "+data.reason+"\"";
-		
-		system(command.c_str());
-	#endif
-	
+	OS::notify("timer:", "time to "+data.reason);
 	log.add("time to "+data.reason);
 	
 	std::cout << "time reached\n";
