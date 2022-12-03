@@ -33,6 +33,7 @@ add_library(alarm_obj OBJECT src/alarm.cpp)
 add_library(timecache_obj OBJECT src/timecache.cpp)
 add_library(log_obj OBJECT src/log.cpp)
 add_library(os_obj OBJECT src/os.cpp)
+add_library(after_obj OBJECT src/after.cpp)
 
 add_executable(timer src/main/timer.cpp)
 add_executable(counter src/main/counter.cpp)
@@ -40,7 +41,7 @@ add_executable(counter src/main/counter.cpp)
 target_link_libraries(time_obj libs_obj)
 target_link_libraries(alarm_obj SDL2::SDL2 SDL2_mixer)
 target_link_libraries(timer timer_obj time_obj alarm_obj timecache_obj log_obj os_obj)
-target_link_libraries(counter counter_obj time_obj alarm_obj timecache_obj log_obj os_obj)
+target_link_libraries(counter counter_obj time_obj alarm_obj timecache_obj log_obj os_obj timer_obj after_obj)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/timer
 	PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ WORLD_EXECUTE WORLD_WRITE WORLD_READ

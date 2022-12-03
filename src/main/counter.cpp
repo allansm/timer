@@ -3,8 +3,10 @@
 #include <timecache.hpp>
 #include <log.hpp>
 #include <os.hpp>
+#include <after.hpp>
 
 std::string title = "";
+Time current;
 
 int main(int argc, char** argv){
 	if(argc < 2){
@@ -29,16 +31,22 @@ int main(int argc, char** argv){
 	}
 
 	Counter time(argv[2]);
-	TimeCache cache(title);
 	
 	Log log;
 
-	time.add(cache.ms());
+	After cache("0:1:0", [](){
+		Log log(title+".log");
+		TimeCache cache(title);
+
+		log.add(title+" "+current.pattern());
+		cache.store(current);
+	});
+
+	time.add(TimeCache(title).ms());
 	
 	time.input_callback = [](auto time){
 		Log log;
 		Time current = time->current();
-		std::string command = "";
 
 		if(time->paused()){
 			OS::notify(title, current.pattern()+" paused");
@@ -57,9 +65,10 @@ int main(int argc, char** argv){
 	while(!time.reach()){
 		OS::clear();
 
-		Time current = time.current();
+		current = time.current();
 		std::cout << title << " " << current.pattern() << "\n";
-		cache.store(current);
+		
+		cache.exec();
 
 		if(time.paused())
 			std::cout << "paused\n";
