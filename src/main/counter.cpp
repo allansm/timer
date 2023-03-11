@@ -10,7 +10,7 @@ Time current;
 
 int main(int argc, char** argv){
 	if(argc < 2){
-		std::cout << "usage: test2 [ title ] [ time: hh:mm:ss ]\n";
+		std::cout << "usage: counter [ title ] [ time: hh:mm:ss ]\n";
 
 		return 0;
 	}
@@ -70,10 +70,16 @@ int main(int argc, char** argv){
 		
 		cache.exec();
 
-		if(time.paused())
+		if(time.paused()){
 			std::cout << "paused\n";
+			
+			Alarm alarm(".wav");
+			alarm.play();
 
-		time.wait();
+			time.wait(10000);
+		}else{
+			time.wait();
+		}
 	}	
 
 	OS::notify("counter", "time reached");
