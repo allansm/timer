@@ -1,9 +1,10 @@
 #include <alarm.hpp>
+#include <filesystem>
 
 Alarm::Alarm(std::string file){
-	if(!std::ifstream(file.c_str()).good()){
-		this->file = file;	
+	this->file = file;
 
+	if(!std::filesystem::exists(this->file.c_str())){
 		auto little = [](std::vector<int>& bytes, int value, int size){
 			while(size){
 				bytes.push_back(value & 0xFF);
@@ -72,19 +73,20 @@ Alarm::Alarm(std::string file){
 		}
 
 		wav.close();
+	}else{
+		std::rename(this->file.c_str(), ".tmp");
+		std::rename(".tmp", this->file.c_str());
 	}
+
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+
+	this->alarm = Mix_LoadMUS(this->file.c_str());
 }
 
 void Alarm::play(){
-	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-	Mix_Music *music = Mix_LoadMUS(this->file.c_str());
-	Mix_PlayMusic(music, 1);
-
+	Mix_PlayMusic(this->alarm, 0);
+	
 	while(Mix_PlayingMusic()){
 		SDL_Delay(250);
 	}
-
-	Mix_FreeMusic(music);
-	Mix_CloseAudio();
-	SDL_Quit();
 }

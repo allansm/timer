@@ -6,9 +6,10 @@
 
 class Alarm{
 	std::string file;	
+	Mix_Music * alarm = NULL;
 
 	public:
 		Alarm(std::string file);
-		
+
 		void play();
 };

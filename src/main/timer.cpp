@@ -5,7 +5,15 @@
 #include <log.hpp>
 #include <os.hpp>
 
+#include <csignal>
+
+void on_exit(int) {
+	exit(0);
+}
+
 int main(int argc, char** argv){
+	std::signal(SIGINT, on_exit);
+
 	Timer time;
 	TimeData data;
 	TimeCache cache(".cache");
@@ -67,11 +75,11 @@ int main(int argc, char** argv){
 	
 	std::cout << "time reached\n";
 	
-	Alarm alarm(".wav");
+	Alarm alarm = Alarm(".wav");
 	
 	while(true){
 		alarm.play();
 	}
-
+	
 	return 0;
 }

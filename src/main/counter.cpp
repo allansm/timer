@@ -5,10 +5,18 @@
 #include <os.hpp>
 #include <after.hpp>
 
+#include <csignal>
+
+void on_exit(int) {
+	exit(0);
+}
+
 std::string title = "";
 Time current;
 
 int main(int argc, char** argv){
+	std::signal(SIGINT, on_exit);
+
 	if(argc < 2){
 		std::cout << "usage: counter [ title ] [ time: hh:mm:ss ]\n";
 
